@@ -33,14 +33,14 @@
             <c:forEach items="${studentList}" var="student" varStatus="status">
                 <td>${status.index+1}</td>
                 <td>${student.id}</td>
-                <td>${student.student_num}</td>
+                <td>${student.studentNum}</td>
                 <td>${student.name}</td>
                 <td>${student.sex}</td>
                 <td>${student.grade}</td>
-                <td>${status.class_num}</td>
+                <td>${status.classNum}</td>
                 <td>${student.college}</td>
                 <td>${student.birthday}</td>
-                <td>${status.is_good_student}</td>
+                <td>${status.goodStudent}</td>
                 <td><a href="${website}student/update/${student.id}">删除</a></td>
                 <td><a href="${website}student/update/${student.id}">删除</a></td>
             </c:forEach>

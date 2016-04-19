@@ -23,7 +23,7 @@
 <div class="continer continer_login">
     <h1>学生管理系统</h1>
     <div class="login">
-        <form action="${website}user/checkLogin" method="post">
+        <form action="${website}/form" method="post">
         <div class="login_peo">
             <span></span>
             <input type="text" name="userName" value="" />

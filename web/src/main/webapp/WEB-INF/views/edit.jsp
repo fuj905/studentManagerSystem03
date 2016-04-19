@@ -17,7 +17,7 @@
 <%>
   String id=request.getParameter("id");
 </%>
-<form id="form1" name="form1" method="post" action="update.jsp?id= ("id")">
+<form id="form1" name="form1" method="post" action="update.jsp?id= (" id")">
   <td>学号&nbsp&nbsp： <input name="student_num" type="text" id="student_num" <c:out value="${row.id}"></c:out> size="25" /></td><p>
   <td>姓名&nbsp&nbsp： <input name="name" type="text" id="name" <c:out value="${row.id}"></c:out> size="25" /></td><p>
   <td>性别： <input name="sex" type="text" id="sex" <c:out value="${row.id}"></c:out>size="25" /></td><p>

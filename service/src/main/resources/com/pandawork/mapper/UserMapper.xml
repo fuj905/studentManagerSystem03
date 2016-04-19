@@ -13,13 +13,18 @@
     <select id="countByUserNameAndPassword" resultType="int">
         SELECT COUNT(1)
         FROM `t_user`
-        WHERE user_name = #{user.userName} AND password = #{user.password}
+        WHERE user_name = #{userName} AND password = #{password}
     </select>
 
-    <delete id="delById">
-        DELETE *
+    <select id="countByUserName" resultType="int">
+        SELECT COUNT(1)
         FROM `t_user`
-        WHERE id=#{id}
+        WHERE user_name = #{userName}
+    </select>
+
+    <delete id="delById" >
+        DELETE FROM `t_user`
+        WHERE id= #{id}
     </delete>
 
     <insert id="newUser">

@@ -16,12 +16,6 @@
     <title>学生信息展示</title>
 </head>
 <body>
-<sql:setDataSource var="snapshot"
-                   driver="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/db_student_manager?useUnicode=true&characterEncoding=UTF-8"
-user="root"  password="root"/>
-<sql:query dataSource="${snapshot}" var="result">
-SELECT * from t_student;
-</sql:query>
 
 <a href="add.jsp">增加学生信息</a>
       <form method='post' action="search.jsp" >
@@ -56,10 +50,6 @@ SELECT * from t_student;
         <input type="text" name="goodStudent">
         <input type="submit" value="按是(1)否(0)好学生搜索">
       </form>
-
-
-
-
 <table border="1" cellspacing="0" cellpadding="0">
     <tr>
     <td>id&nbsp&nbsp</td>

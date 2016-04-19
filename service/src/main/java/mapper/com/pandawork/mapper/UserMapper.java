@@ -20,8 +20,7 @@ public interface UserMapper {
     public User queryById(@Param("id") int id) throws Exception;
 
     /**
-     * 数一数userName和password
-     *
+     * 检查userName和password是否配对？
      * @param userName
      * @param password
      * @return
@@ -67,5 +66,11 @@ public interface UserMapper {
      */
     public void update(@Param("user") User user) throws Exception;
 
+    /**
+     *
+     * @param userName
+     * @return
+     * @throws Exception
+     */
     public Integer countByUserName(@Param("userName") String userName) throws Exception;
 }

@@ -61,4 +61,6 @@ public class StudentServiceTest extends AbstractTestCase {
         //studentService.queryById(2);
         System.out.println(studentService.queryById(2).getStudentName());
     }
+
+
 }

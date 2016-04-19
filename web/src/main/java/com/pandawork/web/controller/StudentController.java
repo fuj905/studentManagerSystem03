@@ -19,10 +19,10 @@ import java.util.List;
  * @time: 2015/8/26 16:57
  */
 @Controller
-@RequestMapping("student")
+@RequestMapping("/student")
 public class StudentController extends AbstractController {
 
-    @RequestMapping(value = "liststudent" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/liststudent" ,method = RequestMethod.GET)
     public String studentList(Model model){
         try {
             List<Student> list = Collections.emptyList();

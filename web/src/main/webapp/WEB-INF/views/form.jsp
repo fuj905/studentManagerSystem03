@@ -18,6 +18,5 @@
     ${message}
     <input type="submit" value="注册">
 </form>
-
 </body>
 </html>

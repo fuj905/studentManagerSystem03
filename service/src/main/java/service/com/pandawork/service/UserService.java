@@ -2,7 +2,6 @@ package com.pandawork.service;
 
 import com.pandawork.common.entity.User;
 import com.pandawork.core.common.exception.SSException;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,14 +22,6 @@ public interface UserService {
      * @throws SSException
      */
     public void update(User user) throws SSException;
-
-    /**
-     * 检查登录
-     * @param userName
-     * @param password
-     * @throws SSException
-     */
-    public boolean checkLogin(String userName,String password) throws SSException;
 
     /**
      * 用户列表
@@ -76,4 +67,14 @@ public interface UserService {
      * @throws SSException
      */
     public int countByUserName(String userName) throws SSException;
+
+//    /**
+//     * 检查登录
+//     * @param userName
+//     * @param password
+//     * @return
+//     * @throws SSException
+//     */
+//    public boolean checkLogin(String userName,String password) throws SSException;
+
 }

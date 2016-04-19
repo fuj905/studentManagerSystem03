@@ -9,7 +9,7 @@ import com.pandawork.core.common.util.CommonUtil;
 import com.pandawork.core.framework.dao.CommonDao;
 import com.pandawork.mapper.UserMapper;
 import com.pandawork.service.UserService;
-import org.apache.ibatis.annotations.Param;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -18,8 +18,6 @@ import java.util.List;
 
 /**
  * Created by fujia on 2016/3/28.
- * date：${date};
- * time:${time};
  */
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -29,6 +27,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     @Qualifier("commonDao")//commonDao别名
     protected CommonDao commonDao;
+    private String userName;
+    private String password;
 
     @Override
     public User queryById(int id) throws SSException {
@@ -51,20 +51,6 @@ public class UserServiceImpl implements UserService {
         Assert.isNotNull( user.getPassword(), NFException.PasswordNotNull );
         try {
             userMapper.update( user );
-        } catch (Exception e) {
-            LogClerk.errLog.error( e );
-            throw SSException.get( NFException.SystemException, e );
-        }
-    }
-
-    @Override
-    public boolean checkLogin(String userName, String password) throws SSException {
-        if (Assert.isNull( userName ) || Assert.isNull( password )) {
-            return false;
-        }
-        try {
-            password = CommonUtil.md5( password );
-            return userMapper.countByUserNameAndPassword( userName, password ) >= 1 ? true : false;
         } catch (Exception e) {
             LogClerk.errLog.error( e );
             throw SSException.get( NFException.SystemException, e );
@@ -148,4 +134,19 @@ public class UserServiceImpl implements UserService {
             throw SSException.get( NFException.SystemException, e );
         }
     }
+
+//    @Override
+//    public boolean checkLogin(String userName, String password) throws SSException {
+//        if(Assert.isNull(userName) || Assert.isNull(password)){
+//            return false;
+//        }
+//        try{
+//            password = CommonUtil.md5(password);
+//            return userMapper.countByUserNameAndPassword(userName,password) >=1 ? true:false;
+//        }catch (Exception e){
+//            LogClerk.errLog.error(e);
+//            throw SSException.get(NFException.SystemException,e);
+//        }
+//
+//    }
 }
