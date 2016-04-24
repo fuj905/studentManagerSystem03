@@ -3,69 +3,100 @@ package com.pandawork.web.controller;
 import com.pandawork.common.entity.Student;
 import com.pandawork.core.common.exception.SSException;
 import com.pandawork.core.common.log.LogClerk;
+import com.pandawork.core.common.util.Assert;
 import com.pandawork.web.spring.AbstractController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Collections;
 import java.util.List;
 
 /**
+ * 学生管理系统
  * StudentController
- *
- * @author: mayuan
+ * @author: fujia
  * @time: 2015/8/26 16:57
  */
 @Controller
 @RequestMapping("/student")
 public class StudentController extends AbstractController {
 
-    @RequestMapping(value = "/liststudent" ,method = RequestMethod.GET)
-    public String studentList(Model model){
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String studentList(Model model) {
         try {
             List<Student> list = Collections.emptyList();
-            list=studentService.listAll();
-            model.addAttribute("studentList",list);
+            list = studentService.listAll();
+            model.addAttribute("studentList", list);//次即为foreach循环的item
             return "studentList";
-        } catch (SSException e ){
+        } catch (SSException e) {
             LogClerk.errLog.error(e);
             sendErrMsg(e.getMessage());
             return ADMIN_SYS_ERR_PAGE;
         }
     }
 
-    @RequestMapping(value = "delete" ,method = RequestMethod.GET)
-    public String delById(@RequestParam("id")int id){
-        try{
-            studentService.delById(id);
-            return "studentList";
-        }
-            catch (SSException e){
-            LogClerk.errLog.error(e);
-            sendErrMsg(e.getMessage());
-            return ADMIN_SYS_ERR_PAGE;
-        }
-    }
-
-    @RequestMapping(value ="update",method = RequestMethod.GET)
-    public String update(@RequestParam("student") Student student){
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
+    public String delete(@PathVariable("id") int id, Model model) {
         try {
-            studentService.update(student);
-            return "studentList";
-        } catch (SSException e ){
+            //studentService.delById(id);
+            if (! studentService.delById(id)) {
+                model.addAttribute("message", "操作错误");
+            }
+            return "redirect:/student/list";//删除后还需重定向页面才可获取最新列表
+        } catch (SSException e) {
             LogClerk.errLog.error(e);
             sendErrMsg(e.getMessage());
             return ADMIN_SYS_ERR_PAGE;
         }
     }
 
-    @RequestMapping(value ="newStudent",method = RequestMethod.GET)
-    public String newStudent(@RequestParam("student")Student student){
+    @RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
+    public String edit(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("id", id);
+        return "edit";
+    }
+
+    @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
+    public String update(Student student, @PathVariable("id") int id) {
+        try {
+            if(!Assert.isNotNull(student)){
+                return null;
+            }
+            studentService.update(student);
+            return "redirect:/student/list";
+        } catch (SSException e){
+            LogClerk.errLog.error(e);
+            sendErrMsg(e.getMessage());
+            return ADMIN_SYS_ERR_PAGE;
+        }
+    }
+
+    @RequestMapping(value ="/new", method = RequestMethod.GET)
+    public String newStudent(Student student, RedirectAttributes redirectAttributes) {
         try {
             studentService.newStudent(student);
-            return "studentList";
+            redirectAttributes.addFlashAttribute("message", "添加成功！");
+            return "redirect:/student/list";
+        } catch (SSException e){
+            LogClerk.errLog.error(e);
+            sendErrMsg(e.getMessage());
+            return ADMIN_SYS_ERR_PAGE;
+        }
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String toNewStudent(){
+        return "add";
+    }
+
+    @RequestMapping(value ="query/{studentName}",method = RequestMethod.GET)
+    public String queryStudent(@PathVariable("studentName") String studentName) {
+        try {
+            studentService.queryByName(studentName);
+            return "redirect:/student/list";
         } catch (SSException e ){
             LogClerk.errLog.error(e);
             sendErrMsg(e.getMessage());
@@ -73,30 +104,17 @@ public class StudentController extends AbstractController {
         }
     }
 
-//    @RequestMapping(value ="queryStudent",method = RequestMethod.GET)
-//    public String queryStudent(@RequestParam("student") Student student){
-//        try {
-//            studentService.queryStudent(student);
+//    @RequestMapping(value="/query/{id}", method = RequestMethod.POST)
+//    public String queryById(@PathVariable("id") int id) throws SSException {
+//        try{
+//            studentService.queryById(id);//给前端页面
 //            return "studentList";
-//        } catch (SSException e ){
+//        }
+//        catch (SSException e){
 //            LogClerk.errLog.error(e);
 //            sendErrMsg(e.getMessage());
 //            return ADMIN_SYS_ERR_PAGE;
 //        }
 //    }
-
-    @RequestMapping(value="querybyid",method = RequestMethod.POST)
-    public String queryById(@RequestParam("id") int id) throws SSException {
-        try{
-            studentService.queryById(id);
-            return "studentList";
-        }
-        catch (SSException e){
-            LogClerk.errLog.error(e);
-            sendErrMsg(e.getMessage());
-            return ADMIN_SYS_ERR_PAGE;
-        }
-    }
-
 
 }

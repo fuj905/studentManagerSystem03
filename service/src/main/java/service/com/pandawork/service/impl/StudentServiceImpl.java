@@ -8,7 +8,6 @@ import com.pandawork.core.common.util.Assert;
 import com.pandawork.core.framework.dao.CommonDao;
 import com.pandawork.mapper.StudentMapper;
 import com.pandawork.service.StudentService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -16,12 +15,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 学生管理系统studentService层
+ * 学生管理系统
+ * studentService的实现
  * Created by fujia on 2016/3/28.
  */
-
 @Service("studentService")
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService {
     @Autowired
     StudentMapper studentMapper;
 
@@ -30,25 +29,25 @@ public class StudentServiceImpl implements StudentService{
     protected CommonDao commonDao;
 
     @Override
-    public List<Student> listAll( ) throws SSException{
+    public List<Student> listAll() throws SSException {
         List<Student> studentList;
-        try{
-        studentList= studentMapper.listAll();
-        }catch(Exception e){
+        try {
+        studentList = studentMapper.listAll();
+        } catch (Exception e) {
             LogClerk.errLog.error(e);
-            throw SSException.get(NFException.ListStudentAll,e);
+            throw SSException.get(NFException.ListStudentAll, e);
         }
         return studentList;
     }
 
     @Override
-    public int countAll() throws SSException{
+    public int countAll() throws SSException {
         int count;
-        try{
+        try {
             count = studentMapper.countAll();
-        }catch (Exception e){
+        } catch (Exception e) {
             LogClerk.errLog.error(e);
-            throw SSException.get(NFException.CountAll,e);
+            throw SSException.get(NFException.CountAll, e);
         }
         return count;
     }
@@ -59,11 +58,11 @@ public class StudentServiceImpl implements StudentService{
         if (Assert.isNull(student)) {
             return ;
         }
-        Assert.isNotNull(student.getStudentNum(), NFException.StudentNumNotNull);
+        Assert.lessOrEqualZero(student.getStudentNum(), NFException.StudentNumLessOrEqualZero);
         Assert.isNotNull(student.getStudentName(), NFException.StudentNameNotNull);
         Assert.isNotNull(student.getSex(),NFException.SexNotNull);
-        Assert.isNotNull(student.getGrade(), NFException.GradeNotNull);
-        Assert.isNotNull(student.getClassNum(), NFException.ClassNumNotNull);
+        Assert.lessOrEqualZero(student.getGrade(), NFException.GradeLessOrEqualZero);
+        Assert.lessOrEqualZero(student.getClassNum(), NFException.ClassNumLessOrEqualZero);
         Assert.isNotNull(student.getCollege(),NFException.CollegeNotNull);
         Assert.isNotNull(student.getBirthday(), NFException.BirthdayNotNull);
         Assert.isNotNull(student.getGoodStudent(),NFException.GoodStudentNotNull);
@@ -76,9 +75,9 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public void delById(int id) throws SSException {
+    public boolean delById(int id) throws SSException {
         if (Assert.lessOrEqualZero(id)) {
-            return ;
+            return false;
         }
         try {
             studentMapper.delById(id);
@@ -86,26 +85,33 @@ public class StudentServiceImpl implements StudentService{
             LogClerk.errLog.error(e);
             throw SSException.get(NFException.DelStudentNull, e);
         }
-        return ;
+        return false;
     }
-
 
     @Override
     public void update(Student student) throws SSException {
         if (Assert.isNotNull(student))
             return;
+        Assert.lessOrEqualZero(student.getStudentNum(), NFException.StudentNumLessOrEqualZero);
         Assert.isNotNull(student.getStudentName(), NFException.StudentNameNotNull);
-        Assert.isNotNull(student.getStudentNum(), NFException.StudentNameNotNull);
         Assert.isNotNull(student.getSex(),NFException.SexNotNull);
-        Assert.isNotNull(student.getGrade(), NFException.GradeNotNull);
-        Assert.isNotNull(student.getClassNum(), NFException.ClassNumNotNull);
-        Assert.isNotNull( student.getCollege(),NFException.CollegeNotNull);
+        Assert.lessOrEqualZero(student.getGrade(), NFException.GradeLessOrEqualZero);
+        Assert.lessOrEqualZero(student.getClassNum(), NFException.ClassNumLessOrEqualZero);
+        Assert.isNotNull(student.getCollege(),NFException.CollegeNotNull);
         Assert.isNotNull(student.getBirthday(), NFException.BirthdayNotNull);
-        Assert.isNotNull( student.getGoodStudent(),NFException.GoodStudentNotNull);
-
+        Assert.isNotNull(student.getGoodStudent(),NFException.GoodStudentNotNull);
         try {
+//            student.setId(student.getId());
+//            student.setStudentNum(student.getClassNum());
+//            student.setStudentName(student.getStudentName());
+//            student.setSex(student.getSex());
+//            student.setGrade(student.getGrade());
+//            student.setClassNum(student.getStudentNum());
+//            student.setCollege(student.getCollege());
+//            student.setBirthday(student.getBirthday());
+//            student.setGoodStudent(student.getGoodStudent());
             studentMapper.update(student);
-        } catch (Exception e) {
+        } catch(Exception e) {
             LogClerk.errLog.error(e);
             throw SSException.get(NFException.UpdateStudentFailed, e);
         }
@@ -123,17 +129,29 @@ public class StudentServiceImpl implements StudentService{
 //    }
 
     public Student queryById(int id) throws SSException {
-        if (Assert.lessOrEqualZero(id)){
+        if (Assert.lessOrEqualZero(id)) {
             return null;
         }
         try {
-            return studentMapper.queryById(id);
-        } catch (Exception e) {
+            studentMapper.queryById(id);
+        } catch(Exception e) {
             LogClerk.errLog.error(e);
             throw SSException.get(NFException.UpdateStudentByIdFailed, e);
         }
-
+        return null;
     }
 
-
+    @Override
+    public Student queryByName(String studentName) throws SSException {
+        if (! Assert.isNull(studentName)) {
+        return null;
+        }
+        try {
+            studentMapper.queryByName(studentName);
+        } catch (Exception e) {
+            LogClerk.errLog.error(e);
+            throw SSException.get(NFException.QueryByNameFailed, e);
+        }
+        return null;
+    }
 }

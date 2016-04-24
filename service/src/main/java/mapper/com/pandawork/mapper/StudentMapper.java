@@ -38,14 +38,14 @@ public interface StudentMapper {
      * @param student
      * @throws Exception
      */
-    public void newStudent(@Param("student") Student student)throws Exception;
+    public void newStudent(@Param("student") Student student) throws Exception;
 
     /**
      * 更新学生信息
      * @param student
      * @throws Exception
      */
-    public void update(@Param("student")Student student) throws Exception;
+    public void update(@Param("student") Student student) throws Exception;
 
     /**
      *删除学生信息
@@ -53,7 +53,15 @@ public interface StudentMapper {
      * @param id
      * @throws Exception
      */
-    public void delById(@Param("id") int id) throws Exception;
+    public boolean delById(@Param("id") int id) throws Exception;
+
+    /**
+     * 根据性别查询学生
+     * @param student
+     * @return
+     * @throws Exception
+     */
+    public Student queryByName(@Param("student") String student) throws Exception;
 
     /**
      * 查询学生

@@ -6,7 +6,8 @@ import com.pandawork.core.common.exception.SSException;
 import java.util.List;
 
 /**
- * UserService
+ * 学生管理系统
+ * UserService层
  * Created by chant on 2016/3/23.
  */
 public interface UserService {
@@ -52,7 +53,7 @@ public interface UserService {
     public boolean delById(int id) throws SSException;
 
     /**
-     *
+     * 用户名与密码的匹配
      * @param userName
      * @param password
      * @return
@@ -61,7 +62,7 @@ public interface UserService {
     public int countByUserNameAndPassword(String userName, String password) throws SSException;
 
     /**
-     *
+     * 用户名是否存在
      * @param userName
      * @return
      * @throws SSException

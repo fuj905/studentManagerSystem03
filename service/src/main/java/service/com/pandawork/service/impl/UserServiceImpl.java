@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
+ * 学生管理系统
+ * userService的实现
  * Created by fujia on 2016/3/28.
  */
 @Service("userService")
@@ -45,15 +47,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(User user) throws SSException {
-        if (Assert.isNotNull( user ))
+        if (Assert.isNotNull(user))
             return;
-        Assert.isNotNull( user.getUserName(), NFException.UserNameNotNull );
-        Assert.isNotNull( user.getPassword(), NFException.PasswordNotNull );
+        Assert.isNotNull(user.getUserName(), NFException.UserNameNotNull);
+        Assert.isNotNull(user.getPassword(), NFException.PasswordNotNull);
         try {
-            userMapper.update( user );
+            userMapper.update(user);
         } catch (Exception e) {
-            LogClerk.errLog.error( e );
-            throw SSException.get( NFException.SystemException, e );
+            LogClerk.errLog.error(e);
+            throw SSException.get(NFException.SystemException, e);
         }
     }
 
@@ -62,8 +64,8 @@ public class UserServiceImpl implements UserService {
         try {
             return userMapper.listAll();
         } catch (Exception e) {
-            LogClerk.errLog.error( e );
-            throw SSException.get( NFException.SystemException, e );
+            LogClerk.errLog.error(e);
+            throw SSException.get(NFException.SystemException, e);
         }
     }
 
@@ -72,66 +74,66 @@ public class UserServiceImpl implements UserService {
         try {
             return userMapper.countByUserName(userName) >= 1 ? true : false;
         } catch (Exception e) {
-            LogClerk.errLog.error( e );
-            throw SSException.get( NFException.SystemException, e );
+            LogClerk.errLog.error(e);
+            throw SSException.get(NFException.SystemException, e);
         }
     }
 
     @Override
     public void newUser(User user) throws SSException {
-        if (Assert.isNotNull( user )) {
+        if (Assert.isNotNull(user)) {
             return;
         }
         //判断用户名与密码是否为空
-        Assert.isNotNull( user.getUserName(), NFException.UserNameNotNull );
-        Assert.isNotNull( user.getPassword(), NFException.PasswordNotNull );
+        Assert.isNotNull(user.getUserName(), NFException.UserNameNotNull);
+        Assert.isNotNull(user.getPassword(), NFException.PasswordNotNull);
         try {
-            user.setPassword( CommonUtil.md5( user.getPassword() ) );
-            userMapper.newUser( "userName", "password" );
+            user.setPassword(CommonUtil.md5( user.getPassword()));
+            userMapper.newUser("userName", "password");
         } catch (Exception e) {
-            LogClerk.errLog.error( e );
-            throw SSException.get( NFException.SystemException, e );
+            LogClerk.errLog.error(e);
+            throw SSException.get(NFException.SystemException, e);
         }
     }
 
     @Override
     public boolean delById(int id) throws SSException {
-        if (Assert.lessOrEqualZero( id )) {
+        if (Assert.lessOrEqualZero(id)) {
             return false;
         }
         try {
-            userMapper.delById( id );
+            userMapper.delById(id);
         } catch (Exception e) {
-            LogClerk.errLog.error( e );
-            throw SSException.get( NFException.SystemException, e );
+            LogClerk.errLog.error(e);
+            throw SSException.get(NFException.SystemException, e);
         }
         return false;
     }
 
     @Override
     public int countByUserNameAndPassword(String userName, String password) throws SSException {
-        if (Assert.isNull( userName ) && Assert.isNotNull( password )) {
+        if (Assert.isNull(userName) && Assert.isNotNull(password)) {
             return 0;
         }
         try {
-            password = CommonUtil.md5( password );
-            return userMapper.countByUserNameAndPassword( userName, password );
+            password = CommonUtil.md5(password);
+            return userMapper.countByUserNameAndPassword(userName, password);
         } catch (Exception e) {
-            LogClerk.errLog.error( e );
-            throw SSException.get( NFException.SystemException, e );
+            LogClerk.errLog.error( e);
+            throw SSException.get(NFException.SystemException, e);
         }
     }
 
     @Override
     public int countByUserName(String userName) throws SSException {
-        if (Assert.isNull( userName )) {
+        if (Assert.isNull(userName)) {
             return 0;
         }
         try {
             return userMapper.countByUserName(userName);
         } catch (Exception e) {
-            LogClerk.errLog.error( e );
-            throw SSException.get( NFException.SystemException, e );
+            LogClerk.errLog.error(e);
+            throw SSException.get( NFException.SystemException, e);
         }
     }
 

@@ -6,6 +6,8 @@ import com.pandawork.core.common.exception.SSException;
 import java.util.List;
 
 /**
+ * 学生管理系统
+ * studentService层
  * Created by fujia on 2016/3/28.
  */
 public interface StudentService {
@@ -34,7 +36,7 @@ public interface StudentService {
      * 删除学生信息
      * @throws SSException
      */
-    public void delById(int id) throws SSException;
+    public boolean delById(int id) throws SSException;
 
     /**
      * 更新
@@ -56,5 +58,11 @@ public interface StudentService {
      */
     public Student queryById(int id) throws SSException;
 
-
+    /**
+     * 根据姓名查询信息
+     * @param studentName
+     * @return
+     * @throws SSException
+     */
+    public Student queryByName(String studentName) throws SSException;
 }

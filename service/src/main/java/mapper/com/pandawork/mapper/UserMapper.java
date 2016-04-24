@@ -4,12 +4,10 @@ import com.pandawork.common.entity.User;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
-/*
- **
+/**
  * UserMapper
  *  Created by chant on 2016/3/23.
  */
-
 public interface UserMapper {
     /**
      * 根据id查User
@@ -34,7 +32,7 @@ public interface UserMapper {
      *
      * @throws Exception
      */
-    public boolean checkUserName(@Param("userName")String userName)throws Exception;
+    public boolean checkUserName(@Param("userName") String userName) throws Exception;
 
     /**
      * 用户列表
@@ -49,7 +47,7 @@ public interface UserMapper {
      *@Param password
      *@throws Exception
      */
-    public void newUser(@Param("userName")String userName,@Param("password")String password)throws Exception;
+    public void newUser(@Param("userName") String userName, @Param("password") String password) throws Exception;
 
     /**
      * 删除用户
@@ -57,7 +55,7 @@ public interface UserMapper {
      *@Param password
      *@throws Exception
      */
-    public void delById(@Param("id")int id)throws Exception;
+    public void delById(@Param("id") int id) throws Exception;
 
     /**
      * 更新

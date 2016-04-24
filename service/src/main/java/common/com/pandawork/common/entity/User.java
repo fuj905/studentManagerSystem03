@@ -10,19 +10,24 @@ import java.util.Date;
 
 /**
  * User实体
- * Created by chant on 2016/3/23.
+ * Created by fujia on 2016/3/23.
  */
 @Table(name = "t_user")
 @Entity
 public class User extends AbstractEntity {
-    @Id
-    private int id;
 
+    //用户ID
+    @Id
+    private Integer id;
+
+    //用户登录名
     @Column(name = "user_name")
     private String userName;
 
+    //用户登录密码
     private String password;
 
+    //用户创建日期
     @Column(name = "created_time")
     private Date createdTime;
 
@@ -38,7 +43,6 @@ public class User extends AbstractEntity {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }

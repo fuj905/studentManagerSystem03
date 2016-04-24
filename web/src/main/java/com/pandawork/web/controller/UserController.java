@@ -27,58 +27,56 @@ import java.util.List;
 public class UserController extends AbstractController {
     public UserService userService;
 
-    @RequestMapping(value = "/querybyid",method = RequestMethod.POST)
-    public String queryById(@RequestParam("id") int id){
+    @RequestMapping(value = "/query", method = RequestMethod.POST)
+    public String queryById(@RequestParam("id") int id) {
         try {
             userService.queryById(id);
             return "userList";
-        } catch (SSException e){
+        } catch (SSException e) {
             LogClerk.errLog.error(e);
             sendErrMsg(e.getMessage());
             return ADMIN_SYS_ERR_PAGE;
         }
     }
 
-
-    @RequestMapping(value = "/listuser" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String listUser(Model model) throws SSException {
         try {
-            List<User> list= Collections.emptyList();
+            List<User> list = Collections.emptyList();
             list = userService.listAll();
             model.addAttribute("userList", list);
             return "userList";
-        }catch(SSException e){
+        } catch (SSException e) {
             LogClerk.errLog.error(e);
             sendErrMsg(e.getMessage());
             return ADMIN_FORBIDDEN_PAGE;
-
         }
     }
 
-    @RequestMapping(value ="/update",method=RequestMethod.POST)
-    public String update(User user)throws SSException{
-        try{
+    @RequestMapping(value ="/update", method=RequestMethod.POST)
+    public String update(User user) throws SSException {
+        try {
             userService.update(user);
             return "userList";
-        }catch(SSException e){
+        } catch (SSException e) {
         LogClerk.errLog.error(e);
         sendErrMsg(e.getMessage());
         return ADMIN_FORBIDDEN_PAGE;
-    }
+        }
     }
 
-    @RequestMapping(value = "/form" ,method = RequestMethod.GET)
-    public String toform(){  //将取到的参数返回给form
+    @RequestMapping(value = "/form", method = RequestMethod.GET)
+    public String toform() {  //将取到的参数返回给form
         return "form";
     }  //打开表单页
 
-    @RequestMapping(value = "/delete/{id}" ,method = RequestMethod.GET)
-        public String delById(@PathVariable("id") int id){
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+        public String delById(@PathVariable("id") int id) {
         try {
             if (userService.delById(id)) {
                 return "userList";
             }
-        } catch (SSException e ){
+        } catch (SSException e) {
             LogClerk.errLog.error(e);
             sendErrMsg(e.getMessage());
             return ADMIN_SYS_ERR_PAGE;
@@ -86,7 +84,7 @@ public class UserController extends AbstractController {
         return "message";
     }
 
-//    @RequestMapping(value="/checklogin",method=RequestMethod.POST)
+//    @RequestMapping(value="/check",method=RequestMethod.POST)
 //    public String checkLogin(String userName,String password){
 //        try{
 //            if(userService.checkLogin(userName,password)){
@@ -107,26 +105,26 @@ public class UserController extends AbstractController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/new" ,method = RequestMethod.POST)
-    public String newUser(User user, @RequestParam("password2")String password2, Model model){
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    public String newUser(User user, @RequestParam("password2")String password2, Model model) {
         try {
             if (!user.getPassword().equals(password2))
             {
-                model.addAttribute("message","密码不一致");
+                model.addAttribute("message", "密码不一致");
                 return "form";
             }
             if (userService.checkUserName(user.getUserName()))
             {
-                model.addAttribute("message","用户名已经存在");
+                model.addAttribute("message", "用户名已经存在");
                 return "form";
             }
             user.setPassword(CommonUtil.md5(user.getPassword()));
             userService.newUser(user);
-            model.addAttribute("message","success");
+            model.addAttribute("message", "success");
             return "message";
-        } catch (SSException ee ){
-            LogClerk.errLog.error(ee);
-            sendErrMsg(ee.getMessage());
+        } catch (SSException e) {
+            LogClerk.errLog.error(e);
+            sendErrMsg(e.getMessage());
             return ADMIN_SYS_ERR_PAGE;
         }
     }

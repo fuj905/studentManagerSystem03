@@ -8,36 +8,43 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 /**
+ * student实体
  * Created by fujia on 2016/3/27.
- * date：${date};
- * time:${time};
  */
 @Table(name = "t_student")
 @Entity
-public class Student extends  AbstractEntity{
-
+public class Student extends AbstractEntity{
+    //学生ID
     @Id
-    public int id;
+    public Integer id;
 
+    //学生学号
     @Column (name="student_num")
-    private  int studentNum;
+    private Integer studentNum;
 
+    //学生姓名
     @Column (name="name")
-    private  String studentName;
+    private String studentName;
 
-    private  String sex;
+    //学生性别
+    private String sex;
 
-    private int grade;
+    //学生年级
+    private Integer grade;
 
+    //学生班级
     @Column (name="class_num")
-    private int classNum;
+    private Integer classNum;
 
+    //学生专业
     private String college;
 
+    //学生出生日期
     private Date birthday;
 
+    //学生是否为好学生 1是0否
     @Column (name="is_good_student")
-    private  int goodStudent;
+    private Integer goodStudent;
 
     public int getId() {
         return id;
